@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.novikova.spring.market.dtos.Cart;
+import ru.novikova.spring.market.model.Cart;
 import ru.novikova.spring.market.services.CartService;
 
 @RestController
@@ -24,19 +24,19 @@ public class CartController {
         cartService.add(id);
     }
 
-    @GetMapping("/change/increaseProductQuantityInCart/{id}")
+    @GetMapping("/increase/{id}")
     public void increaseProductQuantityInCart(@PathVariable Long id) {
         cartService.increaseProductQuantityInCart(id);
     }
 
-    @GetMapping("/change/decreaseProductQuantityInCart/{id}")
+    @GetMapping("/decrease/{id}")
     public void decreaseProductQuantityInCart(@PathVariable Long id) {
         cartService.decreaseProductQuantityInCart(id);
     }
 
-    @GetMapping("/change/deleteProductFromCart/{id}")
+    @GetMapping("/delete/{id}")
     public void deleteProductFromCart(@PathVariable Long id) {
-        cartService.deleteProductFromCart(id);
+        cartService.delete(id);
     }
 
     @GetMapping("/clear")

@@ -2,7 +2,7 @@ package ru.novikova.spring.market.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.novikova.spring.market.dtos.Cart;
+import ru.novikova.spring.market.model.Cart;
 import ru.novikova.spring.market.entities.Product;
 import ru.novikova.spring.market.exceptions.ResourceNotFoundException;
 
@@ -28,6 +28,15 @@ public class CartService {
         tempCart.add(product);
     }
 
+    public void delete(Long productId) {
+        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " + productId + " в корзину. Продукт не найден"));
+        tempCart.delete(product);
+    }
+
+    public void clear() {
+        tempCart.clear();
+    }
+
     public void increaseProductQuantityInCart(Long productId) {
         Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " + productId + " в корзину. Продукт не найден"));
         tempCart.increaseProductQuantityInCart(product);
@@ -36,14 +45,5 @@ public class CartService {
     public void decreaseProductQuantityInCart(Long productId) {
         Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " + productId + " в корзину. Продукт не найден"));
         tempCart.decreaseProductQuantityInCart(product);
-    }
-
-    public void deleteProductFromCart(Long productId) {
-        Product product = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " + productId + " в корзину. Продукт не найден"));
-        tempCart.deleteProductFromCart(product);
-    }
-
-    public void clear() {
-        tempCart.clear();
     }
 }

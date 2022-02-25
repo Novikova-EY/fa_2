@@ -32,19 +32,19 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     }
 
     $scope.increaseProductQuantityInCart = function (productId) {
-        $http.get(contextPath + '/api/v1/cart/change/increaseProductQuantityInCart/' + productId).then(function (response) {
+        $http.get(contextPath + '/api/v1/cart/increase/' + productId).then(function (response) {
             $scope.loadCart();
         });
     }
 
     $scope.decreaseProductQuantityInCart = function (productId) {
-        $http.get(contextPath + '/api/v1/cart/change/decreaseProductQuantityInCart/' + productId).then(function (response) {
+        $http.get(contextPath + '/api/v1/cart/decrease/' + productId).then(function (response) {
             $scope.loadCart();
         });
     }
 
     $scope.deleteProductFromCart = function (productId) {
-        $http.get(contextPath + '/api/v1/cart/change/deleteProductFromCart/' + productId).then(function (response) {
+        $http.get(contextPath + '/api/v1/cart/delete/' + productId).then(function (response) {
             $scope.loadCart();
         });
     }
