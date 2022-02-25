@@ -7,13 +7,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.novikova.spring.market.dtos.JwtRequest;
 import ru.novikova.spring.market.dtos.JwtResponse;
+import ru.novikova.spring.market.dtos.StringResponse;
 import ru.novikova.spring.market.services.UserService;
 import ru.novikova.spring.market.utils.JwtTokenUtil;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,5 +37,10 @@ public class AuthController {
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @GetMapping("/auth_check")
+    public StringResponse authCheck(Principal principal) {
+        return new StringResponse(principal.getName());
     }
 }
