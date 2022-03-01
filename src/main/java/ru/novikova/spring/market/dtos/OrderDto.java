@@ -3,15 +3,16 @@ package ru.novikova.spring.market.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.novikova.spring.market.entities.User;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemDto {
+public class OrderDto {
     private Long id;
-    private Long productId;
-//    private Long orderId;
-    private int quantity;
-    private int pricePerProduct;
-    private int price;
+    private User user;
+    private List<OrderItemDto> items;
+    private int totalPrice;
 }
