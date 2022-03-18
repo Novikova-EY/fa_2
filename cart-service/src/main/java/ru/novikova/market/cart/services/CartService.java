@@ -26,16 +26,12 @@ public class CartService {
     }
 
     public void add(Long productDtoId) {
-        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " +
-                        productDtoId + " в корзину. Продукт не найден"));
+        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId);
         tempCart.add(productDto);
     }
 
     public void delete(Long productDtoId) {
-        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " +
-                        productDtoId + " в корзину. Продукт не найден"));
+        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId);
         tempCart.delete(productDto);
     }
 
@@ -44,16 +40,12 @@ public class CartService {
     }
 
     public void increaseProductQuantityInCart(Long productDtoId) {
-        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " +
-                        productDtoId + " в корзину. Продукт не найден"));
+        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId);
         tempCart.increaseProductQuantityInCart(productDto);
     }
 
     public void decreaseProductQuantityInCart(Long productDtoId) {
-        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Не удается добавить продукт с id: " +
-                        productDtoId + " в корзину. Продукт не найден"));
+        ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId);
         tempCart.decreaseProductQuantityInCart(productDto);
     }
 }

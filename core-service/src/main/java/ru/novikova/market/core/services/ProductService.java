@@ -14,8 +14,14 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> findAll(Optional<String> title,
+                                 Integer minPrice,
+                                 Integer maxPrice) {
+        if (title.isPresent() && minPrice == null && maxPrice == null) {
+            return productRepository.findAll();
+        } else {
+            return productRepository.findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(title.get(), minPrice, maxPrice);
+        }
     }
 
     public Optional<Product> findById(Long id) {

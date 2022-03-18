@@ -1,26 +1,29 @@
 package ru.novikova.market.core.integration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import ru.novikova.market.api.dtos.CartDto;
-
-import java.util.Optional;
+import ru.novikova.market.api.dtos.ProductDto;
 
 @Component
 @RequiredArgsConstructor
 public class CartServiceIntegration {
-    private final RestTemplate restTemplate;
+    private final WebClient cartServiceWebClient;
 
-    @Value("${url.cart}")
-    private String cartUrl;
-
-    public Optional<CartDto> getCurrentCart() {
-        return Optional.ofNullable(restTemplate.getForObject(cartUrl + "/api/v1/cart/", CartDto.class));
+    public CartDto getCurrentCart() {
+        return cartServiceWebClient.get()
+                .uri("/api/v1/cart/")
+                .retrieve()
+                .bodyToMono(CartDto.class)
+                .block();
     }
 
     public void clear() {
-        restTemplate.getForObject(cartUrl + "/api/v1/cart/clear", CartDto.class);
+        cartServiceWebClient.get()
+                .uri("/api/v1/cart/clear")
+                .retrieve()
+                .toBodilessEntity()
+                .block();
     }
 }

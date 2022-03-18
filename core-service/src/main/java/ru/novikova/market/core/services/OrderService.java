@@ -8,8 +8,8 @@ import ru.novikova.market.api.exceptions.ResourceNotFoundException;
 
 import ru.novikova.market.core.entities.Order;
 import ru.novikova.market.core.entities.OrderItem;
-import ru.novikova.market.core.entities.User;
 import ru.novikova.market.core.integration.CartServiceIntegration;
+import ru.novikova.market.core.properties.CartServiceIntegrationProperties;
 import ru.novikova.market.core.repositories.OrderRepository;
 
 import java.util.stream.Collectors;
@@ -22,12 +22,11 @@ public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
 
     @Transactional
-    public void createOrder(User user) {
-        CartDto cartDto = cartServiceIntegration.getCurrentCart()
-                .orElseThrow(() -> new ResourceNotFoundException("Корзина пустая"));
+    public void createOrder(String username) {
+        CartDto cartDto = cartServiceIntegration.getCurrentCart();
 
         Order order = new Order();
-        order.setUser(user);
+        order.setUsername(username);
         order.setTotalPrice(cartDto.getTotalPrice());
 
         order.setItems(cartDto.getItems()

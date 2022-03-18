@@ -9,19 +9,21 @@ import ru.novikova.market.core.entities.Product;
 import ru.novikova.market.core.services.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
 
     @GetMapping
-    public List<ProductDto> findAllProducts() {
-        return productService.findAll()
+    public List<ProductDto> findAllProducts(@RequestParam Optional<String> title,
+                                            @RequestParam Integer minPrice,
+                                            @RequestParam Integer maxPrice) {
+        return productService.findAll(title, minPrice, maxPrice)
                 .stream()
                 .map(productConverter::entityToDto)
                 .collect(Collectors.toList());

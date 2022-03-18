@@ -3,6 +3,7 @@ package ru.novikova.market.cart.model;
 import lombok.Data;
 import ru.novikova.market.api.dtos.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Cart {
     private List<CartItem> items;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
@@ -22,9 +23,9 @@ public class Cart {
     }
 
     private void recalculate() {
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem item : items) {
-            totalPrice += item.getPrice();
+            totalPrice = totalPrice.add(item.getPrice());
         }
     }
 
@@ -48,7 +49,7 @@ public class Cart {
 
     public void clear() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 
     public void increaseProductQuantityInCart(ProductDto productDto) {
