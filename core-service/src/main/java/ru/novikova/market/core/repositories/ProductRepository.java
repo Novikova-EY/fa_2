@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    Product findById(long id);
+
     List<Product> findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(String title, Integer minPrice, Integer maxPrice);
 }

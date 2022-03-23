@@ -10,10 +10,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class ProductService {
     private final ProductRepository productRepository;
-
     public List<Product> findAll(Optional<String> title,
                                  Integer minPrice,
                                  Integer maxPrice) {
