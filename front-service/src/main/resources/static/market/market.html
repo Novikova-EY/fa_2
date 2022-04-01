@@ -1,0 +1,58 @@
+<div>
+    <h4>Фильтр</h4>
+    <form ng-submit="loadProducts()">
+        <div  style="padding: 4px;">
+            <input id="minPrice" id="minPrice" ng-model="filter.minPrice"
+                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+
+            <input id="maxPrice" id="maxPrice" ng-model="filter.maxPrice"
+                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+
+            <input id="title" id="title" ng-model="filter.title"
+                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
+
+            <button id="filterSubmit" style="margin-left: 10px;" type="submit">Ок
+            </button>
+        </div>
+    </form>
+    <p></p>
+
+    <h3>Каталог товаров</h3>
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td></td>
+        </tr>
+        <tbody>
+
+        <tr ng-repeat="p in productsPage.content">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+                <!--                <button type="button" class="btn btn-primary" ng-click="showProductInfo(p.id)">Info</button>-->
+                <!--                <button type="button" class="btn btn-danger" ng-click="deleteProductById(p.id)">Delete</button>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p></p>
+
+    <nav aria-label="Навигация по страницам сайта">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button class="page-link" ng-click="prePage()">Предыдущая</button>
+            </li>
+            <li class="page-item" ng-repeat="pageIndex in paginationArray">
+                <button class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
+            </li>
+            <li class="page-item">
+                <button class="page-link" ng-click="nextPage()">Следующая</button>
+            </li>
+        </ul>
+    </nav>
+</div>

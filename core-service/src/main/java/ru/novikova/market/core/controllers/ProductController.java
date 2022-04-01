@@ -1,6 +1,8 @@
 package ru.novikova.market.core.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import ru.novikova.market.api.dtos.ProductDto;
 import ru.novikova.market.api.exceptions.ResourceNotFoundException;
@@ -20,13 +22,17 @@ public class ProductController {
     private final ProductConverter productConverter;
 
     @GetMapping
-    public List<ProductDto> findAllProducts(@RequestParam Optional<String> title,
-                                            @RequestParam Integer minPrice,
-                                            @RequestParam Integer maxPrice) {
-        return productService.findAll(title, minPrice, maxPrice)
-                .stream()
-                .map(productConverter::entityToDto)
-                .collect(Collectors.toList());
+    public Page<ProductDto> findProducts(
+            @RequestParam(required = false, name = "min_price") Integer minPrice,
+            @RequestParam(required = false, name = "max_price") Integer maxPrice,
+            @RequestParam(required = false, name = "title") String title,
+            @RequestParam(defaultValue = "1", name = "p") Integer page
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        Specification<Product> spec = productService.createSpecByFilters(minPrice, maxPrice, title);
+        return productService.findAll(spec, page - 1).map(productConverter::entityToDto);
     }
 
     @GetMapping("/{id}")
