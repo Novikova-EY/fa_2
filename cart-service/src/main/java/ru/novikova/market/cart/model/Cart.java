@@ -41,8 +41,8 @@ public class Cart {
         recalculate();
     }
 
-    public void delete(ProductDto productDto) {
-        if (items.removeIf(item -> item.getProductId().equals(productDto.getId()))) {
+    public void delete(Long productDtoId) {
+        if (items.removeIf(item -> item.getProductId().equals(productDtoId))) {
             recalculate();
         }
     }
@@ -52,20 +52,20 @@ public class Cart {
         totalPrice = BigDecimal.ZERO;
     }
 
-    public void increaseProductQuantityInCart(ProductDto productDto) {
+    public void increaseProductQuantityInCart(Long productDtoId) {
         for (CartItem item : items) {
-            if (item.getProductId().equals(productDto.getId())) {
+            if (item.getProductId().equals(productDtoId)) {
                 item.changeQuantity(1);
                 recalculate();
             }
         }
     }
 
-    public void decreaseProductQuantityInCart(ProductDto productDto) {
+    public void decreaseProductQuantityInCart(Long productDtoId) {
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getProductId().equals(productDto.getId())) {
+            if (items.get(i).getProductId().equals(productDtoId)) {
                 if (items.get(i).getQuantity() == 1) {
-                    delete(productDto);
+                    delete(productDtoId);
                     recalculate();
                     return;
                 }
