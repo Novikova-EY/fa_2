@@ -32,6 +32,14 @@ public class CartService {
         execute(uuid, cart -> cart.add(productDto));
     }
 
+    public void merge(String username, String uuid) {
+        Cart userCart = getCurrentCart(username);
+        Cart guestCart = getCurrentCart(uuid);
+        userCart.merge(guestCart);
+        redisTemplate.opsForValue().set(cartPrefix + uuid, guestCart);
+        redisTemplate.opsForValue().set(cartPrefix + username, userCart);
+    }
+
     public void delete(String uuid, Long productDtoId) {
         execute(uuid, cart -> cart.delete(productDtoId));
     }

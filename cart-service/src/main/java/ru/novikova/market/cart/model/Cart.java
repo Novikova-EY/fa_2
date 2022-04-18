@@ -5,21 +5,15 @@ import ru.novikova.market.api.dtos.ProductDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Data
-
 public class Cart {
     private List<CartItem> items;
     private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
-    }
-
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(items);
     }
 
     private void recalculate() {
@@ -39,6 +33,24 @@ public class Cart {
         }
         items.add(new CartItem(product.getId(), product.getTitle(), 1, product.getPrice(), product.getPrice()));
         recalculate();
+    }
+
+    public void merge(Cart guestCart) {
+        for (CartItem guestCartItem : guestCart.items) {
+            boolean merged = false;
+            for (CartItem myItem : items) {
+                if (myItem.getProductId().equals(guestCartItem.getProductId())) {
+                    myItem.changeQuantity(guestCartItem.getQuantity());
+                    merged = true;
+                    break;
+                }
+            }
+            if (!merged) {
+                items.add(guestCartItem);
+            }
+        }
+        recalculate();
+        guestCart.clear();
     }
 
     public void delete(Long productDtoId) {

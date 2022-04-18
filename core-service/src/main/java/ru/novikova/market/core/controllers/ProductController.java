@@ -1,6 +1,7 @@
 package ru.novikova.market.core.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,16 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
+import ru.novikova.market.api.dtos.ProductPageDto;
 import ru.novikova.market.api.dtos.ProductDto;
 import ru.novikova.market.api.exceptions.AppError;
 import ru.novikova.market.api.exceptions.ResourceNotFoundException;
 import ru.novikova.market.core.converters.ProductConverter;
 import ru.novikova.market.core.entities.Product;
 import ru.novikova.market.core.services.ProductService;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -33,22 +31,35 @@ public class ProductController {
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ", responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = ProductDto.class))
+                            content = @Content(schema = @Schema(implementation = ProductPageDto.class))
                     )
             }
     )
     @GetMapping
-    public Page<ProductDto> findProducts(
+    public ProductPageDto<ProductDto> findProducts(
+            @Parameter(description = "Минимальная цена продукта", required = false)
             @RequestParam(required = false, name = "min_price") Integer minPrice,
+
+            @Parameter(description = "Максимальная цена продукта", required = false)
             @RequestParam(required = false, name = "max_price") Integer maxPrice,
+
+            @Parameter(description = "Наименование (часть насименования) продукта", required = false)
             @RequestParam(required = false, name = "title") String title,
+
+            @Parameter(description = "Номер страницы", required = false)
             @RequestParam(defaultValue = "1", name = "p") Integer page
     ) {
         if (page < 1) {
             page = 1;
         }
         Specification<Product> spec = productService.createSpecByFilters(minPrice, maxPrice, title);
-        return productService.findAll(spec, page - 1).map(productConverter::entityToDto);
+        Page<ProductDto> jpaPage = productService.findAll(spec, page - 1).map(productConverter::entityToDto);
+
+        ProductPageDto<ProductDto> out = new ProductPageDto<>();
+        out.setPage(jpaPage.getNumber());
+        out.setItems(jpaPage.getContent());
+        out.setTotalPages(jpaPage.getTotalPages());
+        return out;
     }
 
     @Operation(
@@ -65,7 +76,9 @@ public class ProductController {
             }
     )
     @GetMapping("/{id}")
-    public ProductDto findProductById(@PathVariable Long id) {
+    public ProductDto findProductById(
+            @Parameter(description = "Id продукта", required = true)
+            @PathVariable Long id) {
         Product product = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
         return productConverter.entityToDto(product);
@@ -81,7 +94,9 @@ public class ProductController {
             }
     )
     @DeleteMapping("/{id}")
-    public void deleteProductById(@PathVariable Long id) {
+    public void deleteProductById(
+            @Parameter(description = "Id продукта", required = true)
+            @PathVariable Long id) {
         productService.deleteById(id);
     }
 }

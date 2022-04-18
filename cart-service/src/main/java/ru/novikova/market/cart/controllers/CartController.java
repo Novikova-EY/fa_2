@@ -59,6 +59,12 @@ public class CartController {
         cartService.delete(targetUuid, id);
     }
 
+    @GetMapping("/{uuid}/merge")
+    public void merge(@RequestHeader(name = "username", required = false) String username,
+                      @PathVariable String uuid) {
+        cartService.merge(username, uuid);
+    }
+
     @GetMapping("/{uuid}/clear")
     public void clearCart(@RequestHeader(name = "username", required = false) String username,
                           @PathVariable String uuid) {
@@ -66,7 +72,7 @@ public class CartController {
         cartService.clear(targetUuid);
     }
 
-    private String getUuid (String username, String uuid) {
+    private String getUuid(String username, String uuid) {
         if (username != null) {
             return  username;
         }

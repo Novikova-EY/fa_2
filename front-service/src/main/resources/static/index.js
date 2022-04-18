@@ -18,6 +18,14 @@
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -59,6 +67,10 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.marketGuestCartId + '/merge')
+                        .then(function successCallback(response) {
+                        });
 
                     $location.path('/');
                 }

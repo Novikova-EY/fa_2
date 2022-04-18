@@ -26,7 +26,8 @@
         </tbody>
     </table>
     <button type="button" class="btn btn-primary" ng-click="clearCart()">Очистить корзину</button>
-    <button type="button" class="btn btn-primary" ng-click="makeOrder()">Оформить заказ</button>
+    <button class="btn btn-primary" ng-click="checkOut()" ng-show="isUserLoggedIn() && cart.items.length > 0">Оформить заказ</button>
+    <button class="btn btn-secondary" ng-click="disabledCheckOut()" ng-show="!isUserLoggedIn() && cart.items.length > 0">Оформить заказ</button>
 </div>
 </body>
 </html>
