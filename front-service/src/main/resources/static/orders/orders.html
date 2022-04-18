@@ -1,0 +1,39 @@
+<div>
+    <p></p>
+    <h3>Мои заказы</h3>
+    <p></p>
+
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>Номер заказа</td>
+            <td>Адрес доставки</td>
+            <td>Телефон</td>
+            <td>Цена</td>
+        </tr>
+
+        <tbody>
+        <tr ng-repeat="order in ordersPage.content">
+            <td>{{order.id}}</td>
+            <td>{{order.address}}</td>
+            <td>{{order.phone}}</td>
+            <td>{{order.totalPrice}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p></p>
+
+    <nav aria-label="Навигация по страницам заказов">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <button class="page-link" ng-click="preOrderPage()">Предыдущая</button>
+            </li>
+            <li class="page-item" ng-repeat="orderPageIndex in orderPaginationArray">
+                <button class="page-link" ng-click="loadOrders(orderPageIndex)">{{orderPageIndex}}</button>
+            </li>
+            <li class="page-item">
+                <button class="page-link" ng-click="nextOrderPage()">Следующая</button>
+            </li>
+        </ul>
+    </nav>
+</div>
