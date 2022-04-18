@@ -5,9 +5,9 @@ import ru.novikova.market.api.dtos.ProductDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+@Data
 public class Cart {
     private List<CartItem> items;
     private BigDecimal totalPrice;
@@ -67,21 +67,5 @@ public class Cart {
                 recalculate();
             }
         }
-    }
-
-    public List<CartItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<CartItem> items) {
-        this.items = items;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
     }
 }

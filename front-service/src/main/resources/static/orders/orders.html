@@ -10,9 +10,8 @@
             <td>Телефон</td>
             <td>Цена</td>
         </tr>
-
         <tbody>
-        <tr ng-repeat="order in ordersPage.content">
+        <tr ng-repeat="order in orders">
             <td>{{order.id}}</td>
             <td>{{order.address}}</td>
             <td>{{order.phone}}</td>
@@ -20,20 +19,4 @@
         </tr>
         </tbody>
     </table>
-
-    <p></p>
-
-    <nav aria-label="Навигация по страницам заказов">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <button class="page-link" ng-click="preOrderPage()">Предыдущая</button>
-            </li>
-            <li class="page-item" ng-repeat="orderPageIndex in orderPaginationArray">
-                <button class="page-link" ng-click="loadOrders(orderPageIndex)">{{orderPageIndex}}</button>
-            </li>
-            <li class="page-item">
-                <button class="page-link" ng-click="nextOrderPage()">Следующая</button>
-            </li>
-        </ul>
-    </nav>
 </div>

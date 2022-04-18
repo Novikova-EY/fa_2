@@ -50,7 +50,7 @@ public class OrderService {
         cartServiceIntegration.clear(username);
     }
 
-    public Page<Order> findByUsername(String username, Integer page) {
-        return orderRepository.findByUsername(username, PageRequest.of(page, 10));
+    public List<Order> findByUsername(String username) {
+        return orderRepository.findByUsername(username);
     }
 }
