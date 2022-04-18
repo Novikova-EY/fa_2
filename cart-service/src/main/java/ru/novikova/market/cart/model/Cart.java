@@ -35,6 +35,24 @@ public class Cart {
         recalculate();
     }
 
+    public void merge(Cart guestCart) {
+        for (CartItem guestCartItem : guestCart.items) {
+            boolean merged = false;
+            for (CartItem myItem : items) {
+                if (myItem.getProductId().equals(guestCartItem.getProductId())) {
+                    myItem.changeQuantity(guestCartItem.getQuantity());
+                    merged = true;
+                    break;
+                }
+            }
+            if (!merged) {
+                items.add(guestCartItem);
+            }
+        }
+        recalculate();
+        guestCart.clear();
+    }
+
     public void delete(Long productDtoId) {
         if (items.removeIf(item -> item.getProductId().equals(productDtoId))) {
             recalculate();

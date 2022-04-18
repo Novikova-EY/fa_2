@@ -39,5 +39,9 @@ angular.module('market').controller('cartController', function ($scope, $http, $
         });
     }
 
+    $scope.disabledCheckOut = function () {
+        alert("Для оформления заказа необходимо войти в учетную запись");
+    }
+
     $scope.loadCart();
 });
