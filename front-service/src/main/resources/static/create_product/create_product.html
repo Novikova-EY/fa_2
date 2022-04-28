@@ -1,0 +1,17 @@
+<div>
+    <h2>Карточка создания нового продукта</h2>
+    <p></p>
+    <form novalidate ng-submit="createNewProduct()">
+        <div class="form-floating input-group-sm">
+            <label for="title">Название</label>
+            <input type="text" class="form-control" id="title" placeholder="" ng-model="newProduct.title">
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <label for="price">Цена</label>
+            <input type="number" class="form-control" id="price" placeholder="" ng-model="newProduct.price">
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Создать</button>
+    </form>
+</div>

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.novikova.market.api.dtos.ProductPageDto;
 import ru.novikova.market.api.dtos.ProductDto;
@@ -82,6 +83,26 @@ public class ProductController {
         Product product = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт не найден, id: " + id));
         return productConverter.entityToDto(product);
+    }
+
+
+    @Operation(
+            summary = "Запрос на создание нового продукта",
+            responses = {
+                    @ApiResponse(
+                            description = "Продукт успешно создан", responseCode = "201",
+                            content = @Content(schema = @Schema(implementation = ProductDto.class))
+                    )
+            }
+    )
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDto createNewProduct(
+            @Parameter(description = "Создаваемый продукт", required = true)
+            @RequestBody ProductDto productDto
+    ) {
+        Product p = productService.createNewProduct(productDto);
+        return productConverter.entityToDto(p);
     }
 
     @Operation(

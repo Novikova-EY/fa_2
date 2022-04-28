@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.novikova.market.api.dtos.ProductDto;
 import ru.novikova.market.cart.integration.ProductServiceIntegration;
 import ru.novikova.market.cart.model.Cart;
+import ru.novikova.market.cart.model.CartItem;
 
 import java.util.function.Consumer;
 
@@ -28,6 +29,14 @@ public class CartService {
     }
 
     public void add(String uuid, Long productDtoId) {
+        Cart currentCart = getCurrentCart(uuid);
+        for (CartItem item : currentCart.getItems()) {
+            if (item.getProductId().equals(productDtoId)) {
+                item.changeQuantity(1);
+                redisTemplate.opsForValue().set(cartPrefix + uuid, currentCart);
+                return;
+            }
+        }
         ProductDto productDto = productServiceIntegration.getProductDtoById(productDtoId);
         execute(uuid, cart -> cart.add(productDto));
     }
