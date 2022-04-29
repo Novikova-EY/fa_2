@@ -26,6 +26,14 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
             })
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
+            })
+            .when('/create_product', {
+                templateUrl: 'create_product/create_product.html',
+                controller: 'createProductController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

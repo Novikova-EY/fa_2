@@ -29,7 +29,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
                 if (jwtUtil.isInvalid(token)) {
                     return this.onError(exchange, "Authorization header is invalid", HttpStatus.UNAUTHORIZED);
                 }
-                populateRequestWithHeaders(exchange, token);
+                 populateRequestWithHeaders(exchange, token);
             }
             return chain.filter(exchange);
         };
@@ -62,7 +62,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         exchange.getRequest().mutate()
                 .header("username", claims.getSubject())
-//                .header("role", String.valueOf(claims.get("role")))
+                .header("roles", String.valueOf(claims.get("roles")))
                 .build();
     }
 }
