@@ -31,6 +31,9 @@
                 <li class="nav-item" ng-show="isUserLoggedIn()">
                     <a class="nav-link" href="#!/orders">Мои заказы</a>
                 </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()" ng-submit="checkRole()">
+                    <a class="nav-link" href="#!/admin">Админка</a>
+                </li>
 
                 <li class="nav-item" ng-show="!isUserLoggedIn()">
                     <form class="align-middle" ng-submit="tryToAuth()">
@@ -66,6 +69,7 @@
     <script src="orders/orders.js"></script>
     <script src="registration/registration.js"></script>
     <script src="create_product/create_product.js"></script>
+    <script src="admin/admin.js"></script>
 </div>
 </body>
 </html>

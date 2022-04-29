@@ -13,6 +13,7 @@ import ru.novikova.market.auth.entities.User;
 import ru.novikova.market.auth.repositories.UserRepository;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +43,16 @@ public class UserService implements UserDetailsService {
     public void createUser(User user) {
         user.setRoles(List.of(roleService.getUserRole()));
         userRepository.save(user);
+    }
+
+    public boolean checkAdmin(String username) {
+        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
+        List<Role> roles = new ArrayList<>(user.getRoles());
+        for(Role role : roles) {
+            if (role.getName().equals("ROLE_ADMIN")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

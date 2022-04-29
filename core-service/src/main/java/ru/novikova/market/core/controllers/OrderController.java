@@ -34,7 +34,9 @@ public class OrderController {
     )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestHeader String username) {
+    public void createOrder(
+            @Parameter(description = "Имя текущего пользователя", required = true)
+            @RequestHeader String username) {
         orderService.createOrder(username);
     }
 

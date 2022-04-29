@@ -1,6 +1,6 @@
 package ru.novikova.market.api.dtos;
 
-public class JwtRequest {
+public class  JwtRequest {
     private String username;
     private String password;
 
